@@ -1,0 +1,21 @@
+{
+  "name": "mrbig00/oblio-php-client",
+  "description": "Oblio PHP API Client",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Zoltan Szanto",
+      "email": "mrbig00@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "": "src/"
+    }
+  },
+  "require": {
+    "guzzlehttp/guzzle": "~6.0",
+    "kamermans/guzzle-oauth2-subscriber": "~1.0"
+  }
+}
