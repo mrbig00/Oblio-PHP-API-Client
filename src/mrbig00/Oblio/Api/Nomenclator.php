@@ -84,9 +84,7 @@ class Nomenclator
 
         return $this->client->get(
             '/nomenclature/products',
-            [
-                'cif' => $cif,
-            ]
+            $params
         )
             ->getBody();
     }
