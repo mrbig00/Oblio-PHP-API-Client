@@ -11,6 +11,7 @@ namespace mrbig00\Oblio\Api;
 use GuzzleHttp\HandlerStack;
 use kamermans\OAuth2\OAuth2Middleware;
 use kamermans\OAuth2\GrantType\ClientCredentials;
+use mrbig00\Oblio\JsonAwareResponse;
 
 /**
  * Class Client
@@ -55,6 +56,17 @@ class Client
             'auth' => 'oauth',
             'base_uri' => 'https://www.oblio.eu/api/',
         ]);
+
+        $handler = $this->client->getConfig('handler');
+        $handler->push(\GuzzleHttp\Middleware::mapResponse(function (\Psr\Http\Message\ResponseInterface $response) {
+            return new JsonAwareResponse(
+                $response->getStatusCode(),
+                $response->getHeaders(),
+                $response->getBody(),
+                $response->getProtocolVersion(),
+                $response->getReasonPhrase()
+            );
+        }), 'json_decode_middleware');
     }
 
     public function get(string $uri, array $parameters)
