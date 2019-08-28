@@ -30,8 +30,7 @@ class Nomenclator
                 'cif' => $cif,
             ]
         )
-            ->getBody()
-            ->getContents();
+            ->getBody();
     }
 
     public function getVatRates(string $cif)
@@ -42,8 +41,7 @@ class Nomenclator
                 'cif' => $cif,
             ]
         )
-            ->getBody()
-            ->getContents();
+            ->getBody();
     }
 
     public function getClients(string $cif, string $name = null, int $offset = 0)
@@ -60,8 +58,7 @@ class Nomenclator
                 'cif' => $cif,
             ]
         )
-            ->getBody()
-            ->getContents();
+            ->getBody();
     }
 
     public function getProducts(string $cif, string $name = null, string $code = null, string $management = null, string $workStation = null, int $offset = 0)
@@ -91,8 +88,7 @@ class Nomenclator
                 'cif' => $cif,
             ]
         )
-            ->getBody()
-            ->getContents();
+            ->getBody();
     }
 
     public function getSeries(string $cif)
@@ -103,8 +99,7 @@ class Nomenclator
                 'cif' => $cif,
             ]
         )
-            ->getBody()
-            ->getContents();
+            ->getBody();
     }
 
     public function getLanguages(string $cif)
@@ -115,8 +110,7 @@ class Nomenclator
                 'cif' => $cif,
             ]
         )
-            ->getBody()
-            ->getContents();
+            ->getBody();
     }
 
     public function getManagements(string $cif)
@@ -127,7 +121,6 @@ class Nomenclator
                 'cif' => $cif,
             ]
         )
-            ->getBody()
-            ->getContents();
+            ->getBody();
     }
 }
