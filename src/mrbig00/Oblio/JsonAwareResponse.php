@@ -5,8 +5,11 @@
  * @license     MIT
  * @since       2019-08-28
  */
+
 namespace mrbig00\Oblio;
+
 use GuzzleHttp\Psr7\Response;
+
 /**
  * Automatically convert json response to array
  *
@@ -20,8 +23,13 @@ class JsonAwareResponse extends Response
      * @var array
      */
     private $json;
+
     public function getBody()
     {
+        if ($this->getStatusCode() != 200) {
+            return parent::getBody();
+        }
+
         if ($this->json) {
             return $this->json;
         }
