@@ -73,4 +73,9 @@ class Client
     {
         return $this->client->request('GET', ltrim($uri, '/'), ['query' => $parameters]);
     }
+
+    public function post(string $uri, array $parameters)
+    {
+        return $this->client->request('POST', ltrim($uri, '/'), ['body' => json_encode($parameters)]);
+    }
 }
