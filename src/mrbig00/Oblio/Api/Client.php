@@ -8,27 +8,32 @@
 
 namespace mrbig00\Oblio\Api;
 
-use Traversable;
-use GuzzleHttp\HandlerStack;
-use kamermans\OAuth2\OAuth2Middleware;
-use GuzzleHttp\Command\ResultInterface;
-use Psr\Http\Message\ResponseInterface;
+use GuzzleHttp\Command\CommandInterface;
 use GuzzleHttp\Command\Guzzle\Description;
 use GuzzleHttp\Command\Guzzle\GuzzleClient;
+use GuzzleHttp\Command\ResultInterface;
+use GuzzleHttp\HandlerStack;
+use kamermans\OAuth2\OAuth2Middleware;
 use kamermans\OAuth2\GrantType\ClientCredentials;
-use mrbig00\Oblio\JsonAwareResponse;
+use Psr\Http\Message\ResponseInterface;
+use Traversable;
 
 /**
  * Class Client
  *
  * @package mrbig00\Oblio\Api
- * @method ResultInterface getCompanies(array $args = [])
- * @method ResultInterface getClients(array $args = [])
- * @method ResultInterface getProducts(array $args = [])
- * @method ResultInterface getSeries(array $args = [])
- * @method ResultInterface getLanguages(array $args = [])
- * @method ResultInterface getManagement(array $args = [])
- * @method ResultInterface getVatRates(array $args = [])
+ * @method ResultInterface getCompanies(array $args = []) Returns the list of companies associated with the Oblio
+ *         account
+ * @method ResultInterface getClients(array $args = [])  Returns the list of clients for a particular company
+ * @method ResultInterface getProducts(array $args = []) Returns the product list for a particular company. For
+ *         services, the management where it is located is not taken into account and therefore the "stock" heading
+ *         does not appear.
+ * @method ResultInterface getSeries(array $args = []) Returns the list of document series for a particular company
+ * @method ResultInterface getLanguages(array $args = []) Returns the list of foreign languages for a particular
+ *         company
+ * @method ResultInterface getManagement(array $args = []) Returns the list of management for a particular company,
+ *         works only if stocks are activated
+ * @method ResultInterface getVatRates(array $args = []) Returns the list of VAT rates for a particular company
  * @method ResultInterface addProforma(array $args = [])
  * @method ResultInterface addNotice(array $args = [])
  * @method ResultInterface addInvoice(array $args = [])
@@ -41,9 +46,6 @@ use mrbig00\Oblio\JsonAwareResponse;
  * @method ResultInterface restoreInvoice(array $args = [])
  * @method ResultInterface restoreProforma(array $args = [])
  * @method ResultInterface restoreNotice(array $args = [])
- * @method ResultInterface deleteInvoice(array $args = [])
- * @method ResultInterface deleteProforma(array $args = [])
- * @method ResultInterface deleteNotice(array $args = [])
  */
 class Client
 {
@@ -55,10 +57,12 @@ class Client
      * @var GuzzleClient
      */
     public $guzzleClient;
+    public $nomenclator;
 
     public function __construct(string $clientId, string $clientSecret)
     {
         $this->initClient($clientId, $clientSecret);
+        $this->nomenclator = new Nomenclator($this);
     }
 
     protected function initClient(string $clientId, string $clientSecret)
@@ -747,72 +751,6 @@ class Client
                         ],
                     ],
                 ],
-                'deleteInvoice' => [
-                    'httpMethod' => 'DELETE',
-                    'uri' => '/api/docs/invoice',
-                    'responseModel' => 'getResponse',
-                    'parameters' => [
-                        'cif' => [
-                            'location' => 'query',
-                            'type' => 'string',
-                            'required' => true,
-                        ],
-                        'seriesName' => [
-                            'location' => 'query',
-                            'type' => 'string',
-                            'required' => true,
-                        ],
-                        'number' => [
-                            'location' => 'query',
-                            'type' => 'string',
-                            'required' => true,
-                        ],
-                    ],
-                ],
-                'deleteProforma' => [
-                    'httpMethod' => 'DELETE',
-                    'uri' => '/api/docs/proforma',
-                    'responseModel' => 'getResponse',
-                    'parameters' => [
-                        'cif' => [
-                            'location' => 'query',
-                            'type' => 'string',
-                            'required' => true,
-                        ],
-                        'seriesName' => [
-                            'location' => 'query',
-                            'type' => 'string',
-                            'required' => true,
-                        ],
-                        'number' => [
-                            'location' => 'query',
-                            'type' => 'string',
-                            'required' => true,
-                        ],
-                    ],
-                ],
-                'deleteNotice' => [
-                    'httpMethod' => 'DELETE',
-                    'uri' => '/api/docs/notice',
-                    'responseModel' => 'getResponse',
-                    'parameters' => [
-                        'cif' => [
-                            'location' => 'query',
-                            'type' => 'string',
-                            'required' => true,
-                        ],
-                        'seriesName' => [
-                            'location' => 'query',
-                            'type' => 'string',
-                            'required' => true,
-                        ],
-                        'number' => [
-                            'location' => 'query',
-                            'type' => 'string',
-                            'required' => true,
-                        ],
-                    ],
-                ],
             ],
             'models' => [
                 'getResponse' => [
@@ -842,10 +780,5 @@ class Client
     {
         $params = $args[0] ?? [];
         return $this->guzzleClient->$method($params);
-    }
-
-    public function post(string $uri, array $parameters)
-    {
-        return $this->client->request('POST', ltrim($uri, '/'), ['body' => json_encode($parameters)]);
     }
 }
