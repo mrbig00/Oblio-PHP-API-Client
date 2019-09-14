@@ -16,6 +16,7 @@ use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Command\Guzzle\Description;
 use GuzzleHttp\Command\Guzzle\GuzzleClient;
 use kamermans\OAuth2\GrantType\ClientCredentials;
+use mrbig00\Oblio\JsonAwareResponse;
 
 /**
  * Class Client
@@ -841,5 +842,10 @@ class Client
     {
         $params = $args[0] ?? [];
         return $this->guzzleClient->$method($params);
+    }
+
+    public function post(string $uri, array $parameters)
+    {
+        return $this->client->request('POST', ltrim($uri, '/'), ['body' => json_encode($parameters)]);
     }
 }

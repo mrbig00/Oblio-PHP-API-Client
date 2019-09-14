@@ -7,7 +7,7 @@ Super-simple, minimum abstraction Oblio API wrapper, in PHP
 Use the package manager [composer](https://getcomposer.org/) to install the Oblio API Wrapper.
 
 ```bash
-composer require mrbig00/oblio-php-api-client
+composer require mrbig00/oblio-php-client
 ```
 
 ## Usage
