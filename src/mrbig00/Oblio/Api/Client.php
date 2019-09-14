@@ -14,8 +14,10 @@ use GuzzleHttp\Command\Guzzle\Description;
 use GuzzleHttp\Command\Guzzle\GuzzleClient;
 use GuzzleHttp\Command\ResultInterface;
 use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
 use kamermans\OAuth2\OAuth2Middleware;
 use kamermans\OAuth2\GrantType\ClientCredentials;
+use mrbig00\Oblio\Api\Exceptions\OblioException;
 use Psr\Http\Message\ResponseInterface;
 use Traversable;
 
@@ -83,6 +85,15 @@ class Client
         $stack = HandlerStack::create();
         $stack->push($oauth);
 
+        $stack->push(Middleware::mapResponse(function (ResponseInterface $response) {
+            $responseBody = json_decode($response->getBody()->getContents(), true);
+            if ($response->getStatusCode() !== 200) {
+                $errorMessage = isset($responseBody['statusMessage']) ?
+                    $responseBody['statusMessage'] : null;
+                throw new OblioException($errorMessage);
+            }
+            return $response;
+        }));
 
         $this->client = new \GuzzleHttp\Client([
             'handler' => $stack,
