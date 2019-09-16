@@ -8,18 +8,17 @@
 
 namespace mrbig00\Oblio\Api;
 
-use Guzzle\Service\Loader\JsonLoader;
-use GuzzleHttp\Command\CommandInterface;
+use Traversable;
+use GuzzleHttp\Middleware;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Response;
+use kamermans\OAuth2\OAuth2Middleware;
+use GuzzleHttp\Command\ResultInterface;
+use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Command\Guzzle\Description;
 use GuzzleHttp\Command\Guzzle\GuzzleClient;
-use GuzzleHttp\Command\ResultInterface;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware;
-use kamermans\OAuth2\OAuth2Middleware;
-use kamermans\OAuth2\GrantType\ClientCredentials;
 use mrbig00\Oblio\Api\Exceptions\OblioException;
-use Psr\Http\Message\ResponseInterface;
-use Traversable;
+use kamermans\OAuth2\GrantType\ClientCredentials;
 
 /**
  * Class Client
@@ -103,7 +102,19 @@ class Client
 
         $description = new Description(json_decode(file_get_contents(__DIR__ . '/service_description.json'), true));
 
-        $this->guzzleClient = new GuzzleClient($this->client, $description);
+        $this->guzzleClient = new GuzzleClient(
+            $this->client,
+            $description,
+            null,
+            function ($response) {
+                /**
+                 * @var $response Response
+                 */
+                $response->getBody()->rewind();
+                $data = json_decode($response->getBody()->getContents(), true);
+                return $data['data'] ?? $data;
+            }
+        );
     }
 
     /**
