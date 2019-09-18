@@ -591,6 +591,72 @@
         }
       }
     },
+    "deleteInvoice": {
+      "httpMethod": "DELETE",
+      "uri": "\/api\/docs\/invoice",
+      "responseModel": "getResponse",
+      "parameters": {
+        "cif": {
+          "location": "query",
+          "type": "string",
+          "required": true
+        },
+        "seriesName": {
+          "location": "query",
+          "type": "string",
+          "required": true
+        },
+        "number": {
+          "location": "query",
+          "type": "string",
+          "required": true
+        }
+      }
+    },
+    "deleteProforma": {
+      "httpMethod": "DELETE",
+      "uri": "\/api\/docs\/proforma",
+      "responseModel": "getResponse",
+      "parameters": {
+        "cif": {
+          "location": "query",
+          "type": "string",
+          "required": true
+        },
+        "seriesName": {
+          "location": "query",
+          "type": "string",
+          "required": true
+        },
+        "number": {
+          "location": "query",
+          "type": "string",
+          "required": true
+        }
+      }
+    },
+    "deleteNotice": {
+      "httpMethod": "DELETE",
+      "uri": "\/api\/docs\/notice",
+      "responseModel": "getResponse",
+      "parameters": {
+        "cif": {
+          "location": "query",
+          "type": "string",
+          "required": true
+        },
+        "seriesName": {
+          "location": "query",
+          "type": "string",
+          "required": true
+        },
+        "number": {
+          "location": "query",
+          "type": "string",
+          "required": true
+        }
+      }
+    },
     "restoreInvoice": {
       "httpMethod": "PUT",
       "uri": "\/api\/docs\/invoice\/restore",
