@@ -459,7 +459,7 @@
         }
       }
     },
-    "getInvoices": {
+    "getInvoice": {
       "httpMethod": "GET",
       "uri": "\/api\/docs\/invoice",
       "responseModel": "getResponse",
@@ -481,7 +481,7 @@
         }
       }
     },
-    "getProformas": {
+    "getProforma": {
       "httpMethod": "GET",
       "uri": "\/api\/docs\/proforma",
       "responseModel": "getResponse",
@@ -503,7 +503,7 @@
         }
       }
     },
-    "getNotices": {
+    "getNotice": {
       "httpMethod": "GET",
       "uri": "\/api\/docs\/notice",
       "responseModel": "getResponse",
