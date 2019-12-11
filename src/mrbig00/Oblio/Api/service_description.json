@@ -10,7 +10,7 @@
     "getClients": {
       "httpMethod": "GET",
       "uri": "\/api\/nomenclature\/clients",
-      "responseModel": "getResponse",,
+      "responseModel": "getResponse",
       "description" : "Returns the list of clients associated with the Oblio account",
       "parameters": {
         "cif": {
@@ -33,7 +33,7 @@
     "getProducts": {
       "httpMethod": "GET",
       "uri": "\/api\/nomenclature\/products",
-      "responseModel": "getResponse",,
+      "responseModel": "getResponse",
       "description" : "Returns the list of products associated with the Oblio account",
       "parameters": {
         "cif": {
@@ -71,7 +71,7 @@
     "getSeries": {
       "httpMethod": "GET",
       "uri": "\/api\/nomenclature\/series",
-      "responseModel": "getResponse",,
+      "responseModel": "getResponse",
       "description" : "Returns the list of invoice series associated with the Oblio account",
       "parameters": {
         "cif": {
@@ -84,7 +84,7 @@
     "getLanguages": {
       "httpMethod": "GET",
       "uri": "\/api\/nomenclature\/languages",
-      "responseModel": "getResponse",,
+      "responseModel": "getResponse",
       "description" : "Returns the list of languages associated with the Oblio account",
       "parameters": {
         "cif": {
@@ -97,7 +97,7 @@
     "getManagement": {
       "httpMethod": "GET",
       "uri": "\/api\/nomenclature\/management",
-      "responseModel": "getResponse",,
+      "responseModel": "getResponse",
       "description" : "Returns the list of managements (gestiune) associated with the Oblio account",
       "parameters": {
         "cif": {
@@ -110,8 +110,8 @@
     "getVatRates": {
       "httpMethod": "GET",
       "uri": "\/api\/nomenclature\/vat_rates",
-      "responseModel": "getResponse",,
-      "description" : "Returns the list of vat rates associated with the Oblio account"
+      "responseModel": "getResponse",
+      "description" : "Returns the list of vat rates associated with the Oblio account",
       "parameters": {
         "cif": {
           "location": "query",
@@ -123,7 +123,7 @@
     "addProforma": {
       "httpMethod": "POST",
       "uri": "\/api\/docs\/proforma",
-      "responseModel": "getResponse",,
+      "responseModel": "getResponse",
       "description" : "Add a proforma",
       "parameters": {
         "cif": {
