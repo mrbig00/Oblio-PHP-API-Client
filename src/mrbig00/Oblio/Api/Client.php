@@ -8,6 +8,7 @@
 
 namespace mrbig00\Oblio\Api;
 
+use Psr\Http\Message\RequestInterface;
 use Traversable;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\HandlerStack;
@@ -63,8 +64,11 @@ class Client
      */
     public $guzzleClient;
 
-    public function __construct(string $clientId, string $clientSecret)
+    protected $middlewares = [];
+
+    public function __construct(string $clientId, string $clientSecret, array $middlewares = [])
     {
+        $this->middlewares = $middlewares;
         $this->initClient($clientId, $clientSecret);
     }
 
@@ -96,6 +100,10 @@ class Client
             }
             return $response;
         }));
+
+        foreach ($this->middlewares as $name => $middleware) {
+            $stack->push($middleware, $name);
+        }
 
         $this->client = new \GuzzleHttp\Client([
             'handler' => $stack,
